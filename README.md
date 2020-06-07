@@ -17,8 +17,8 @@ A simple commad line tool to read FITS files
 
 FITSTool is a command line tool to read, manipulate and write files conforming to the [FITS 4.0](https://fits.gsfc.nasa.gov/fits_standard.html) file format, commonly used to store astronomical data. 
 
-| <img src = "Doc/FITSCore@0.5x.png" alt="FitsCore" width="128"> | <img src = "Doc/FITSKit@0.5x.png" alt="FitsKit" width="128"> | <img src = "Doc/FITSTool@0.5x.png" alt="FitsTool" width="128">
-| :-------------------------------------------: | :--------------------------------------: |
+| ![FITSCore](Doc/FITSCore128.png) | ![FITSCore](Doc/FITSKit128.png) | ![FITSCore](Doc/FITSTool128.png) |
+| :---------------------------------------: | :---------------------------------------: | :---------------------------------------: | 
 | [**FITSCore**](https://github.com/brampf/fitscore) | [**FITSKit**](https://github.com/brampf/fitskit) | [**FITSTool**](https://github.com/brampf/fitstool) |
 |  Fits file format read & write  | Image rendering & manipulation | Command line tool |
 |  macOS, iOS & Linux | iOS / macCatalyst | Linux |
