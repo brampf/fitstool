@@ -43,8 +43,11 @@ struct FITSTool: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
     
-    @Flag(name: .short, help: "Show list of hdus")
+    @Flag(name: .customShort("L"), help: "Show list of hdus")
     private var list: Bool
+    
+    @Flag(name: .customShort("V"), help: "Validate hdus")
+    private var validate: Bool
     
     init() { }
     
@@ -74,28 +77,37 @@ struct FITSTool: ParsableCommand {
     
     func process(file: FitsFile){
         
-        if list {
-            list(file: file)
-        }
-        
-    }
-    
-    func list(file: FitsFile){
-
         if let hdu = hdu {
             // list only specified HDU
             if hdu == 0 {
-                if verbose {print("List PRIME HDU")}
-                list(hdu: file.prime)
+                
             } else {
-                if verbose {print("List HDU \(hdu-1) of \(file.HDUs.count)")}
-                list(hdu: file.HDUs[hdu-1])
+                
             }
         } else {
-            // list all HDUs
-            list(hdu: file.prime)
+            // process all HDUs
+            process(hdu: file.prime)
             file.HDUs.forEach { hdu in
-                list(hdu: hdu)
+                process(hdu: hdu)
+            }
+        }
+        
+        print("Done.")
+    }
+    
+    func process(hdu: AnyHDU){
+        
+        if list {
+            list(hdu: hdu)
+        }
+        if validate {
+            let validated = hdu.validate { message in
+                print(message)
+            }
+            if !validated {
+                print("Validation Failed!")
+            } else {
+                print("Validation Successful")
             }
         }
         
