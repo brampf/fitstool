@@ -30,7 +30,7 @@ FITSTool is a command line tool to read, manipulate and write files conforming t
 ```
 OVERVIEW: A Swift command-line tool to read FITS files
 
-USAGE: fits-tool <path> [--hdu <hdu>] [--verbose] [-l]
+USAGE: fits-tool <path> [--hdu <hdu>] [--verbose] [-L] [-V]
 
 ARGUMENTS:
 <path>                  The path to the file 
@@ -38,7 +38,8 @@ ARGUMENTS:
 OPTIONS:
 --hdu <hdu>             Examine a specific HDU 
 -v, --verbose           Show extra logging for debugging purposes 
--l                      Show list of hdus 
+-L                      Show list of hdus 
+-V                      Validate hdus 
 --version               Show the version.
 -h, --help              Show help information.
 
