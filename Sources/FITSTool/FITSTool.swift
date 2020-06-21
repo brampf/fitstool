@@ -43,10 +43,13 @@ struct FITSTool: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
     
-    @Flag(name: .customShort("L"), help: "Show list of hdus")
+    @Flag(name: .customShort("L"), help: "Print list of HDUs")
     private var list: Bool
     
-    @Flag(name: .customShort("V"), help: "Validate hdus")
+    @Flag(name: .customShort("T"), help: "Print content of tables")
+    private var plotTable: Bool
+    
+    @Flag(name: .customShort("V"), help: "Print validation results")
     private var validate: Bool
     
     init() { }
@@ -80,9 +83,9 @@ struct FITSTool: ParsableCommand {
         if let hdu = hdu {
             // list only specified HDU
             if hdu == 0 {
-                
+                process(hdu: file.prime)
             } else {
-                
+                process(hdu: file.HDUs[hdu])
             }
         } else {
             // process all HDUs
@@ -100,6 +103,16 @@ struct FITSTool: ParsableCommand {
         if list {
             list(hdu: hdu)
         }
+        if plotTable, let table = hdu as? TableHDU {
+            var dat = Data()
+            table.plot(data: &dat)
+            print(String(data: dat, encoding: .ascii) ?? "N/A")
+        }
+        if plotTable, let table = hdu as? BintableHDU {
+            var dat = Data()
+            table.plot(data: &dat)
+            print(String(data: dat, encoding: .ascii) ?? "N/A")
+        }
         if validate {
             let validated = hdu.validate { message in
                 print(message)
@@ -115,7 +128,6 @@ struct FITSTool: ParsableCommand {
     
     func list(hdu: AnyHDU){
         
-        print("--- \(type(of: hdu)) -------------")
         if verbose{
             print(hdu.debugDescription)
         } else {
