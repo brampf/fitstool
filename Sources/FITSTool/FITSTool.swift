@@ -35,13 +35,16 @@ struct FITSTool: ParsableCommand {
         subcommands: [])
     
     @Argument(help: "The path to the file")
-    private var path: String
+    private var path: [String]
     
     @Option(help: "Examine a specific HDU")
     private var hdu: Int?
     
     @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
     private var verbose: Bool
+    
+    @Flag(name: .shortAndLong, help: "Recursive traversion through directories")
+    private var recursive: Bool
     
     @Flag(name: .customShort("L"), help: "Print list of HDUs")
     private var list: Bool
@@ -54,8 +57,26 @@ struct FITSTool: ParsableCommand {
     
     init() { }
     
-    mutating func run() throws {
+    func run() throws {
         
+        for p in path {
+            
+            let url = URL(fileURLWithPath: p)
+            
+            guard FileManager.default.isReadableFile(atPath: p) else {
+                print("Unable to read \(p)")
+                continue
+            }
+            
+            
+            
+            self.process(url: url)
+        }
+        
+        print("Done.")
+        return
+        
+        /*
         guard FileManager.default.isReadableFile(atPath: path) else {
             print("File not found")
             return
@@ -76,6 +97,48 @@ struct FITSTool: ParsableCommand {
             
             
         })
+ */
+    }
+    
+    func process(url: URL) {
+        
+        let keys: Set<URLResourceKey> = .init(arrayLiteral: .isDirectoryKey, .isReadableKey)
+        let vals = try? url.resourceValues(forKeys: keys)
+        
+        guard vals?.isReadable ?? false else {
+            print("Unable to read \(url.path)")
+            return
+        }
+        
+        if vals?.isDirectory ?? false && recursive {
+            // directory URL
+            if let urls = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: Array(keys), options: .skipsPackageDescendants){
+                urls.forEach { url in
+                    process(url: url)
+                }
+            }
+            
+        } else {
+            // file URL
+            
+            guard ["fit","fits","FIT","FITS"].contains(url.pathExtension) else {
+                if verbose { print("Skipping \(url.path)") }
+                return
+            }
+            
+            print("\n\n-\(url.lastPathComponent.pad("-", count: 79))")
+            if verbose {
+                print("Reading \(url.absoluteString) ...")
+            }
+            
+            FitsFile.read(from: url, onError: { error in
+                print(error)
+                return
+            }, onCompletion: { file in
+                
+                process(file: file)
+            })
+        }
     }
     
     func process(file: FitsFile){
@@ -94,8 +157,6 @@ struct FITSTool: ParsableCommand {
                 process(hdu: hdu)
             }
         }
-        
-        print("Done.")
     }
     
     func process(hdu: AnyHDU){
@@ -136,4 +197,17 @@ struct FITSTool: ParsableCommand {
         
     }
     
+}
+
+extension String {
+    
+     func pad(_ char: Character, count: Int) -> String {
+        
+        guard count > self.count else {
+            return self
+        }
+        
+        let x = count - self.count
+        return self+String(repeating: char, count: x)
+    }
 }
