@@ -29,10 +29,10 @@ struct FITSTool: ParsableCommand {
     
     struct Options : ParsableArguments {
         
-        @Flag(name: .shortAndLong, help: "Show extra logging for debugging purposes")
+        @Flag(name: .short, help: "Show extra logging for debugging purposes")
         internal var verbose: Bool = false
         
-        @Flag(name: .shortAndLong, help: "Recursive traversion through directories")
+        @Flag(name: .short, help: "Recursive traversion through directories")
         internal var recursive: Bool = false
         
         @Argument(help: "The path to the FITS file(s)")
@@ -43,8 +43,7 @@ struct FITSTool: ParsableCommand {
     
     static let configuration = CommandConfiguration(
         commandName: "fitstool",
-        abstract: "A Swift command-line tool to read FITS files",
-        version: "1.0",
+        abstract: "A Swift command-line tool to process FITS files",
         subcommands: [Search.self, Plot.self, Verify.self],
         defaultSubcommand: Search.self)
 

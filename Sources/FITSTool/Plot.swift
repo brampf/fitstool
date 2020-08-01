@@ -29,7 +29,11 @@ extension FITSTool {
  
     struct Plot : ParsableCommand {
         
-        @Flag(name: .customShort("t"), help: "Print content of tables")
+        static var configuration = CommandConfiguration(
+            commandName: "plot",
+            abstract: "Plot headers and (optional) tables to stdout.")
+        
+        @Flag(name: .customShort("t"), help: "Plot content of tables")
         private var plotTable: Bool = false
         
         @OptionGroup var options : FITSTool.Options

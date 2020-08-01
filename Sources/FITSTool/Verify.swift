@@ -28,6 +28,10 @@ import Foundation
 extension FITSTool {
  
     struct Verify : ParsableCommand {
+        
+        static var configuration = CommandConfiguration(
+            commandName: "verify",
+            abstract: "Verify FITS files according to the 4.0 starndard.")
      
         @OptionGroup var options : FITSTool.Options
 

@@ -28,24 +28,71 @@ FITSTool is a command line tool to read, manipulate and write files conforming t
 ### Usage
 
 ```
-OVERVIEW: A Swift command-line tool to read FITS files
+OVERVIEW: A Swift command-line tool to process FITS files
 
-USAGE: fits-tool [<path> ...] [--hdu <hdu>] [--verbose] [--recursive] [-L] [-T] [-V]
-
-ARGUMENTS:
-<path>                  The path to the file 
+USAGE: fitstool <subcommand>
 
 OPTIONS:
---hdu <hdu>             Examine a specific HDU 
--v, --verbose           Show extra logging for debugging purposes 
--r, --recursive         Recursive traversion through directories 
--L                      Print list of HDUs 
--T                      Print content of tables 
--V                      Print validation results 
---version               Show the version.
--h, --help              Show help information.
+  -h, --help              Show help information.
+
+SUBCOMMANDS:
+  search (default)        Search through all headers.
+  plot                    Plot headers and (optional) tables to stdout.
+  verify                  Verify FITS files according to the 4.0 starndard.
+
+  See 'fitstool help <subcommand>' for detailed help.
+```
+
+#### fitstool search
+```
+OVERVIEW: Search through all headers.
+
+USAGE: fitstool search [<term>] [-v] [-r] [<path> ...]
+
+ARGUMENTS:
+  <term>                  The string to search for 
+  <path>                  The path to the FITS file(s) 
+
+OPTIONS:
+  -v                      Show extra logging for debugging purposes 
+  -r                      Recursive traversion through directories 
+  -h, --help              Show help information.
+```
+
+#### fitstool plot
+```
+OVERVIEW: Plot headers and (optional) tables to stdout.
+
+USAGE: fitstool plot [-t] [-v] [-r] [<path> ...]
+
+ARGUMENTS:
+  <path>                  The path to the FITS file(s) 
+
+OPTIONS:
+  -t                      Plot content of tables 
+  -v                      Show extra logging for debugging purposes 
+  -r                      Recursive traversion through directories 
+  -h, --help              Show help information.
+  
+  ```
+
+#### fitstool verify
+```
+OVERVIEW: Verify FITS files according to the 4.0 starndard.
+
+USAGE: fitstool verify [-v] [-r] [<path> ...]
+
+ARGUMENTS:
+  <path>                  The path to the FITS file(s) 
+
+OPTIONS:
+  -v                      Show extra logging for debugging purposes 
+  -r                      Recursive traversion through directories 
+  -h, --help              Show help information.
+
 
 ```
+
 
 ## License
 
