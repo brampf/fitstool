@@ -2,6 +2,7 @@ import XCTest
 import class Foundation.Bundle
 
 final class FITSToolTests: XCTestCase {
+    
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
@@ -26,7 +27,7 @@ final class FITSToolTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
 
-        XCTAssertEqual(output, "Hello, world!\n")
+        XCTAssertEqual(output, "Done.\n")
     }
 
     /// Returns path to the built products directory.

@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "FITSTool",
+    products: [
+        .executable(name: "fitstool", targets: ["FITSTool"]),
+    ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.0.1"),

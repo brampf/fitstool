@@ -22,5 +22,4 @@
  
  */
 
-
 FITSTool.main()
